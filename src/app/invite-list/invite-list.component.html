@@ -1,0 +1,23 @@
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Email</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users$">
+      <td>{{ user.id }}</td>
+      <td>{{ user.email }}</td>
+      <td class="deleteBtn" (click)="deleteUser(user)">X</td>
+    </tr>
+  </tbody>
+</table>
+<br />
+<h3>{{ successEmails.length + " users successfully invited" }}</h3>
+<br />
+<h3>The following user could not be invited:</h3>
+<tr *ngFor="let failedEmail of failedEmails">
+  <td>{{ failedEmail }}</td>
+</tr>
