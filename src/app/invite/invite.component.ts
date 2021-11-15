@@ -46,7 +46,7 @@ export class InviteComponent implements OnInit {
           //save server error
         } else if (error.status === 500) {
           this.response.push(
-            `User ${user.email} create an internal Server Error ${error.status}`
+            `User ${user.email} created an internal Server Error ${error.status}`
           );
         }
         //save any other error
