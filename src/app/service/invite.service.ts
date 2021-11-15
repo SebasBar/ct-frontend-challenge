@@ -13,7 +13,6 @@ const httpOptions = {
     "Content-Type": "application/json",
   }),
 };
-
 @Injectable({
   providedIn: "root",
 })
@@ -26,11 +25,13 @@ export class InviteService {
     return this.http.get<User[]>(this.url);
   }
 
+  //add delete option
   deleteUser(user: User): Observable<User> {
     const useUrlId = `${this.url}/${user.id}`;
     return this.http.delete<User>(useUrlId);
   }
 
+  //invitation
   invite(user: User): Observable<User> {
     return this.http.post<User>(this.url, user, httpOptions);
   }

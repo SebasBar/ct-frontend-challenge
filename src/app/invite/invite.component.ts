@@ -22,7 +22,8 @@ const users: User[] = [
   styleUrls: ["./invite.component.css"],
 })
 export class InviteComponent implements OnInit {
-  response: any[] = [];
+  //this variable will store the response from the server
+  response: (string | object)[] = [];
 
   constructor(private inviteService: InviteService, private router: Router) {}
 
@@ -33,28 +34,40 @@ export class InviteComponent implements OnInit {
   postRequest(user: User): any {
     this.inviteService.invite(user).subscribe({
       next: (response) => {
+        //save success invitations
         this.response.push(response);
       },
       error: (error) => {
-        if (error.status === 409)
-          this.response.push(`User ${user.email} already exists`);
-        else if (error.status === 500)
+        //save repeated users
+        if (error.status === 409) {
           this.response.push(
-            `User ${user.email} create an internal Server Error`
+            `User ${user.email} already exists, error ${error.status}`
           );
+          //save server error
+        } else if (error.status === 500) {
+          this.response.push(
+            `User ${user.email} create an internal Server Error ${error.status}`
+          );
+        }
+        //save any other error
+        else
+          return `There is an error number ${error.status} in the server for the user ${user.email}`;
       },
     });
   }
 
   inviteUsers() {
+    //function to send the invitation to each user
     users.forEach((user: User) => {
       this.postRequest(user);
     });
   }
 
   onSubmit(): void {
+    //send invitation
     this.inviteUsers();
-    alert("You will be redirected to list page");
+    alert("You will be redirected to the list page");
+    //redirect to /list page and send the server response variable
     this.router.navigate(["/list"], {
       state: { serverResponse: this.response },
     });

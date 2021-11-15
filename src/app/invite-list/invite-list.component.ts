@@ -37,7 +37,7 @@ export class InviteListComponent implements OnInit {
     this.inviteService.getUsers().subscribe((users$) => (this.users$ = users$));
   }
 
-  // Create delete to been able to have different cases to invite
+  // Create delete user
   deleteUser(user: User) {
     this.inviteService
       .deleteUser(user)
